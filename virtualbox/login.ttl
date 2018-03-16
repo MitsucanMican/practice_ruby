@@ -1,0 +1,54 @@
+﻿; 自動接続マクロ
+; @brief サーバへの自動接続をするtera termマクロ
+; @par
+; @author Takahiro Ito
+; @date No.0 Created Takahiro Ito 2018/3/14
+
+
+; 作業ディレクトリ設定
+getdir DIR
+setdir DIR
+
+
+; 設定
+HOST_NAME         = '192.168.33.10'
+USER_NAME         = 'vagrant'
+RELATIVE_KEY_FILE = '.vagrant\machines\default\virtualbox\private_key'
+TCP_PORT          = '22'
+SERVICE           = 'ssh'
+AUTH              = 'publickey'
+SSH_VERSION       = '2'
+
+
+; 実行コマンド作成
+COMMAND = HOST_NAME
+
+; ポート番号
+strconcat COMMAND ':'
+strconcat COMMAND TCP_PORT
+
+; 接続方法
+strconcat COMMAND ' /'
+strconcat COMMAND SERVICE
+
+; 認証方法
+strconcat COMMAND ' /auth='
+strconcat COMMAND AUTH
+
+; sshバージョン
+strconcat COMMAND ' /'
+strconcat COMMAND SSH_VERSION
+
+; ユーザ
+strconcat COMMAND ' /user='
+strconcat COMMAND USER_NAME
+
+; 秘密鍵
+strconcat COMMAND ' /keyfile='
+strconcat COMMAND DIR
+strconcat COMMAND '\'
+strconcat COMMAND RELATIVE_KEY_FILE
+
+connect COMMAND
+
+end
